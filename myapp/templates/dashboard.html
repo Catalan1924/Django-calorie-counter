@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard | Calorie Tracker</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 font-sans leading-normal tracking-normal">
+    
+    <!-- Navbar -->
+    <nav class="bg-green-600 p-4">
+        <div class="container mx-auto flex justify-between items-center">
+            <h1 class="text-white text-2xl font-bold">Calorie Tracker</h1>
+            <div>
+                <a href="/" class="text-white hover:underline mx-2">Home</a>
+                <a href="" class="text-white hover:underline mx-2">Add Food</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="container mx-auto mt-8">
+        <div class="bg-white shadow-lg rounded-lg p-6">
+            <h2 class="text-3xl font-semibold text-gray-800 mb-4">Welcome to Your Dashboard</h2>
+            <p class="text-gray-600 mb-6">
+                Track your daily calorie intake easily. Add your meals, view total calories, and stay on top of your goals.
+            </p>
+
+            <!-- Actions -->
+            <div class="flex space-x-4">
+                <a href="{% url 'add_food' %}" class="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-lg shadow">
+                     Add Food Item
+                </a>
+                <a href="{% url 'reset_day' %}" class="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-lg shadow">
+                     Reset Today
+                </a>
+            </div>
+        </div>
+
+        <!-- Daily Summary -->
+        <div class="mt-6 bg-white shadow-lg rounded-lg p-6">
+            <h3 class="text-2xl font-semibold text-gray-800 mb-4">Today’s Summary</h3>
+            
+            {% if food_items %}
+                <ul class="divide-y divide-gray-200">
+                    {% for food in food_items %}
+                    <li class="flex justify-between items-center py-2">
+                        <span class="text-gray-700 font-medium">{{ food.name }}</span>
+                        <div class="flex items-center space-x-4">
+                            <span class="text-gray-500">{{ food.calories }} kcal</span>
+                            <a href="{% url 'delete_food' food.id %}" class="text-red-600 hover:text-red-800 text-sm">Delete</a>
+                        </div>
+                    </li>
+                    {% endfor %}
+                </ul>
+            {% else %}
+                <p class="text-gray-500">No foods added yet for today.</p>
+            {% endif %}
+
+            <div class="mt-4 text-xl font-bold text-gray-800">
+                Total Calories Today: {{ total_calories }} kcal
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>
